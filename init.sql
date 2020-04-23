@@ -14,7 +14,9 @@ CREATE TABLE IF NOT EXISTS event (id SERIAL PRIMARY KEY, name TEXT, description 
 
 CREATE TABLE IF NOT EXISTS person_interested_in_event (person_id SERIAL REFERENCES person (id), event_id SERIAL REFERENCES event (id), creator BOOLEAN, PRIMARY KEY (person_id, event_id));
 
-CREATE TABLE IF NOT EXISTS message (id SERIAL PRIMARY KEY, person_id SERIAL REFERENCES person (id), event_id SERIAL REFERENCES event (id), time TIMESTAMP WITH TIME ZONE, content TEXT, generated BOOLEAN, generated_content_description smallint);
+CREATE TYPE generated_content_description As ENUM ('event_created', 'event_updated', 'user_joined_event', 'time_place_suggestion_added', 'time_place_suggestion_choosen');
+
+CREATE TABLE IF NOT EXISTS message (id SERIAL PRIMARY KEY, person_id SERIAL REFERENCES person (id), event_id SERIAL REFERENCES event (id), time TIMESTAMP WITH TIME ZONE, content TEXT, generated_content_description generated_content_description);
 
 CREATE TABLE IF NOT EXISTS time_place_suggestion (id SERIAL PRIMARY KEY, event_id SERIAL REFERENCES event (id), start_date TIMESTAMP WITH TIME ZONE, end_date TIMESTAMP WITH TIME ZONE, place TEXT, link TEXT);
 
