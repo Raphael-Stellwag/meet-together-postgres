@@ -16,8 +16,8 @@ CREATE TYPE generated_content_description As ENUM ('event_created', 'event_updat
 
 CREATE TABLE IF NOT EXISTS message (id SERIAL PRIMARY KEY, person_id SERIAL REFERENCES person (id), event_id SERIAL REFERENCES event (id), time TIMESTAMP WITH TIME ZONE, content TEXT, generated_content_description generated_content_description);
 
-CREATE TABLE IF NOT EXISTS person_interested_in_event (person_id SERIAL REFERENCES person (id), event_id SERIAL REFERENCES event (id), creator BOOLEAN, left_event BOOLEAN default false, last_read_message INT REFERENCES message (id) default null, PRIMARY KEY (person_id, event_id));
-
+CREATE TABLE IF NOT EXISTS person_interested_in_event (person_id SERIAL REFERENCES person (id), event_id SERIAL REFERENCES event (id), creator BOOLEAN, last_read_message INT REFERENCES message (id) default null, PRIMARY KEY (person_id, event_id));
+--left_event boolean default false
 CREATE TABLE IF NOT EXISTS time_place_suggestion (id SERIAL PRIMARY KEY, event_id SERIAL REFERENCES event (id), start_date TIMESTAMP WITH TIME ZONE, end_date TIMESTAMP WITH TIME ZONE, place TEXT, link TEXT);
 
 CREATE TABLE IF NOT EXISTS can_attend (person_id SERIAL REFERENCES person (id), time_place_suggestion_id SERIAL REFERENCES time_place_suggestion (id), PRIMARY KEY (person_id, time_place_suggestion_id));
