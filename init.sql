@@ -22,4 +22,4 @@ CREATE TABLE IF NOT EXISTS time_place_suggestion (id SERIAL PRIMARY KEY, event_i
 
 CREATE TABLE IF NOT EXISTS can_attend (person_id SERIAL REFERENCES person (id), time_place_suggestion_id SERIAL REFERENCES time_place_suggestion (id), PRIMARY KEY (person_id, time_place_suggestion_id));
 
-ALTER TABLE event ADD FOREIGN KEY (choosen_time_place) REFERENCES time_place_suggestion (id)
+ALTER TABLE event ADD FOREIGN KEY (choosen_time_place) REFERENCES time_place_suggestion (id);
