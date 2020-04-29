@@ -7,10 +7,10 @@ CREATE DATABASE meet_together;
 
 create extension pgcrypto;
 
-CREATE TABLE IF NOT EXISTS person (id SERIAL PRIMARY KEY, name TEXT, password TEXT, password_generated BOOLEAN);
+CREATE TABLE IF NOT EXISTS person (id SERIAL PRIMARY KEY, name TEXT, email TEXT UNIQUE, password TEXT, registered BOOLEAN);
 
 -- Add in future maybe column password TEXT for event to increase security -- , start_date TIMESTAMP WITH TIME ZONE, end_date TIMESTAMP WITH TIME ZONE, flexible_time BOOLEAN
-CREATE TABLE IF NOT EXISTS event (id SERIAL PRIMARY KEY, name TEXT, description TEXT, accesstoken TEXT, choosen_time_place INT);
+CREATE TABLE IF NOT EXISTS event (id SERIAL PRIMARY KEY, name TEXT, description TEXT, accesstoken TEXT UNIQUE, choosen_time_place INT);
 
 CREATE TYPE generated_content_description As ENUM ('event_created', 'event_updated', 'user_joined_event', 'user_left_event', 'time_place_suggestion_added', 'time_place_suggestion_choosen');
 

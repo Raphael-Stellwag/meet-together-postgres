@@ -1,41 +1,30 @@
-
-  
-
 # Meet-together Postgres Database
 
-  
+Here is the database needed by the meet-together backend documented
 
 ## Installation
 
 The postgres database server runs in a docker container. For this we are using the official postgres image provided under [https://hub.docker.com/_/postgres/](https://hub.docker.com/_/postgres/)
 
-  
+```
+	docker pull postgres
+```
 
-docker pull postgres
+At the first 'docker run' the database have to be initilized, for this we have to run ($HOME systemvariable needed): 
 
-  
-
-At the first 'docker run' the database have to be initilized, for this we have to run:
-
-  
-
-docker run --rm --name postgres -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data -v ./init.sql:/docker-entrypoint-initdb.d/init.sql postgres
-
-  
+```
+	docker run --rm --name postgres -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data -v ./init.sql:/docker-entrypoint-initdb.d/init.sql postgres
+```
 
 This starts a container from the postgres image. For this we are setting the database password to 'docker' and additionally pointing the port 5432 from the docker container to the port 5432 of the host machine, this makes the database accessible from the local network. We are also making two folders accessible for the docker container. The first one is setting the postgresql data to the host machine, so that the data is stored on the host machine and not deleted when the container is killed. The second volume is only needed at the first start of the container to initialize the database and tables.
-
-  
 
 ## Run the container (from the second time on)
 
 At the second start of the container we have to run the container without the database initiation script:
 
-  
-
-docker run --rm --name postgres -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data postgres
-
-  
+```
+	docker run --rm --name postgres -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data postgres
+```
 
 ## Database model
 
@@ -50,38 +39,21 @@ Here a short description:
  - time_place_suggestion: to one event there can be multiply suggestion when and where to meet, this is saved here.
  - can_attend: user can attend on time_place_suggestion, this gives the organizer an overview where the most people could attend
 
-  
-  
-
 ## Development tools
 
 A good tool for directly accessing the database is **pgadmin** (provides a GUI), another good cli alternative is **psql**.
 
-  
-  
-  
-  
-  
+ 
 
 Rarely used development instructions:
 
-  
-
 psql -h localhost -U postgres -d postgres -f init.sql
-
 docker kill postgres
-
 mkdir -p $HOME/docker/volumes/postgres
 
-  
-  
 
 docker -H 192.168.1.66 run --rm --name postgres -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data postgres
 
-  
-
 docker -H 192.168.1.66 run --rm --name postgres -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v /home/raphael/docker/volumes/postgres:/var/lib/postgresql/data postgres
-
-  
 
 docker run --rm --name postgres -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v /home/raphael/docker/volumes/postgres:/var/lib/postgresql/data postgres
