@@ -4,19 +4,19 @@ Here is the database needed by the meet-together backend documented
 
 ## Installation
 
-The postgres database server runs in a docker container. For this we are using the official postgres image provided under [https://hub.docker.com/_/postgres/](https://hub.docker.com/_/postgres/)
+The postgres database server runs in a docker container. For this we are using the official postgres image provided under [https://hub.docker.com/_/postgres/](https://hub.docker.com/_/postgres/), we customizing it and add our init script in it so first build our custom image:
 
 ```
-	docker pull postgres
+	docker build -t meet-together-postgres .
 ```
 
-At the first 'docker run' the database have to be initilized, for this we have to run ($HOME systemvariable needed): 
+Afterwards we can run ($HOME systemvariable needed: Under windows use ${$HOME} instead of $HOME in the instruction): 
 
 ```
-	docker run --rm --name postgres -e POSTGRES_PASSWORD=docker -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data -v ./init.sql:/docker-entrypoint-initdb.d/init.sql postgres
+	docker run --rm --name meet-together-postgres -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data meet-together-postgres
 ```
 
-This starts a container from the postgres image. For this we are setting the database password to 'docker' and additionally pointing the port 5432 from the docker container to the port 5432 of the host machine, this makes the database accessible from the local network. We are also making two folders accessible for the docker container. The first one is setting the postgresql data to the host machine, so that the data is stored on the host machine and not deleted when the container is killed. The second volume is only needed at the first start of the container to initialize the database and tables.
+This starts a container from our image. For this we are pointing the port 5432 from the docker container to the port 5432 of the host machine, this makes the database accessible from the local network (On windows you additionally have to set the port forwarding: https://github.com/docker/for-win/issues/204#issuecomment-303461340). We are also making one folder accessible for the docker container. The volume is setting the postgresql data to the host machine, so that the data is stored on the host machine and not deleted when the container is killed.
 
 ## Run the container (from the second time on)
 

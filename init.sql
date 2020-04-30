@@ -1,6 +1,6 @@
-SELECT version();
+--SELECT version();
 
-DROP DATABASE meet_together;
+--DROP DATABASE meet_together;
 CREATE DATABASE meet_together;
 
 \c meet_together
